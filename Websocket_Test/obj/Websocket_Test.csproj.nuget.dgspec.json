@@ -1,0 +1,57 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/ainsley.sydun/Projects/Websocket_Test/Websocket_Test/Websocket_Test.csproj": {}
+  },
+  "projects": {
+    "/Users/ainsley.sydun/Projects/Websocket_Test/Websocket_Test/Websocket_Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ainsley.sydun/Projects/Websocket_Test/Websocket_Test/Websocket_Test.csproj",
+        "projectName": "Websocket_Test",
+        "projectPath": "/Users/ainsley.sydun/Projects/Websocket_Test/Websocket_Test/Websocket_Test.csproj",
+        "packagesPath": "/Users/ainsley.sydun/.nuget/packages/",
+        "outputPath": "/Users/ainsley.sydun/Projects/Websocket_Test/Websocket_Test/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/ainsley.sydun/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
