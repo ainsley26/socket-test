@@ -10,12 +10,8 @@ namespace Websocket_Test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting async test...");
-            Console.WriteLine(" > Enter URL to connect to: ");
-            string uri = Console.ReadLine();
-            Connect(uri).Wait();
-            Console.WriteLine("Enter something to send...");
-            Console.WriteLine("Press any key to exit.");
+            Connect("ws://192.168.178.17:9000").Wait();
+            Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
 
@@ -53,13 +49,14 @@ namespace Websocket_Test
             while (webSocket.State == WebSocketState.Open)
             {
                 // Get the message to send
+                Console.WriteLine("Enter a message to send: ");
                 string msg = Console.ReadLine();
-                byte[] buffer = Encoding.GetBytes(msg);
+                byte[] buffer = Encoding.UTF8.GetBytes(msg);
 
-                await webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, CancellationToken.None);
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 Console.WriteLine("Sent: " + msg);
 
-                await Task.Delay(1000);
+                await Task.Delay(500);
             }
         }
 
@@ -71,6 +68,9 @@ namespace Websocket_Test
             // While the websocket connection is open
             while (webSocket.State == WebSocketState.Open)
             {
+                // Clear the buffer
+                for (int i = 0; i < 1024; ++i) buffer[i] = 0;
+
                 // Grab the message
                 var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 if (result.MessageType == WebSocketMessageType.Close)
