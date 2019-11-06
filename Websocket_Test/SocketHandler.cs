@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Websocket_Test
 {
@@ -99,11 +100,55 @@ namespace Websocket_Test
                 }
                 else
                 {
-                    Console.WriteLine("Received: " + Encoding.UTF8.GetString(buffer).TrimEnd('\0'));
+                    string msg = Encoding.UTF8.GetString(buffer).TrimEnd('\0');
+                    Console.WriteLine("Received: " + msg);
 
                     // Actually do something with the message here...
+                    var json = JObject.Parse(msg);
+
+                    // 1. Extract the message
+                    string cmd = (string)json["message"];
+
+                    // 2. Perform the command
+                    // TODO: review how best to handle different commands,
+                    //       either a switch like this, or a map of func. ptrs.?
+                    string ret = "";
+                    switch (cmd)
+                    {
+                        case "status":
+                            ret = GetStatus();
+                            break;
+                    }
+
+                    // 3. Compile the result
+                    JObject retJson = JObject.FromObject(new
+                    {
+                        to = (string)json["from"],
+                        from = "our ip address",
+                        message = ret,
+                        timestamp = DateTime.Now,
+                        authorization = "an auth token"
+                    });
+
+                    // 4. Send the result
+                    await Send(retJson.ToString());
                 }
             }
         }
+
+        private static string GetStatus()
+        {
+            return "Okay";
+        }
     }
 }
+
+/**
+    Processes a message received on a websocket.
+    The message should be a JSON consisting of the following fields:
+        to:         the ip address or hostname of the message recipient
+        from:       the ip adress or hostname of the message sender
+        message:    the message for the recipient
+        timestamp:  the time that the message was sent
+        auth:       an auth token of some kind
+ */
